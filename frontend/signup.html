@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | Talking Rabbitt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { background: '#0a0a0a', surface: '#171717', border: '#262626', muted: '#a3a3a3' } } }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .glow-bg { position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, rgba(147, 51, 234, 0.12) 0%, rgba(0,0,0,0) 60%); top: 40%; left: 20%; transform: translate(-50%, -50%); pointer-events: none; }
+        .bg-grid { background-size: 40px 40px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px); mask-image: linear-gradient(to bottom, black 40%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%); }
+    </style>
+</head>
+<body class="bg-background text-white h-screen flex overflow-hidden antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <div class="hidden lg:flex w-[55%] relative bg-background border-r border-border flex-col justify-between p-12 overflow-hidden">
+        <div class="absolute inset-0 bg-grid pointer-events-none z-0"></div>
+        <div class="glow-bg z-0"></div>
+
+        <div class="relative z-10 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 16a3 3 0 0 1 2.24 5"></path><path d="M18 12h.01"></path><path d="M18 21h-8a4 4 0 0 1-4-4 7 7 0 0 1 7-7h.2L9.6 6.4a1 1 0 1 1 2.8-2.8L15.8 7h.2c3.3 0 6 2.7 6 6v1a2 2 0 0 1-2 2h-1a3 3 0 0 0-3 3"></path><path d="M20 8.54V4a2 2 0 1 0-4 0v3"></path></svg>
+            </div>
+            <span class="font-bold text-xl tracking-tight">Talking Rabbitt</span>
+        </div>
+
+        <div class="relative z-10 max-w-xl my-auto">
+            <h1 class="text-[2.75rem] leading-[1.1] font-bold tracking-tight mb-5 text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-neutral-500">
+                Start asking your data questions today.
+            </h1>
+            <p class="text-muted text-lg mb-10 leading-relaxed max-w-md">
+                Create a free account to upload your first spreadsheet and let our AI turn it into actionable answers.
+            </p>
+            
+            <div class="flex items-center gap-4 text-sm text-neutral-400">
+                <div class="flex -space-x-2">
+                    <img class="w-8 h-8 rounded-full border-2 border-background" src="https://i.pravatar.cc/100?img=1" alt="User">
+                    <img class="w-8 h-8 rounded-full border-2 border-background" src="https://i.pravatar.cc/100?img=2" alt="User">
+                    <img class="w-8 h-8 rounded-full border-2 border-background" src="https://i.pravatar.cc/100?img=3" alt="User">
+                </div>
+                <span>Join 10,000+ data-driven teams.</span>
+            </div>
+        </div>
+
+        <div class="relative z-10 text-sm text-neutral-500 flex items-center justify-between">
+            <span>© 2026 Talking Rabbitt.</span>
+        </div>
+    </div>
+
+    <div class="w-full lg:w-[45%] flex items-center justify-center p-8 sm:p-12 relative overflow-y-auto">
+        <div class="w-full max-w-[380px] space-y-6">
+            
+            <div class="flex lg:hidden items-center gap-2 mb-6">
+                <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 16a3 3 0 0 1 2.24 5"></path><path d="M18 12h.01"></path><path d="M18 21h-8a4 4 0 0 1-4-4 7 7 0 0 1 7-7h.2L9.6 6.4a1 1 0 1 1 2.8-2.8L15.8 7h.2c3.3 0 6 2.7 6 6v1a2 2 0 0 1-2 2h-1a3 3 0 0 0-3 3"></path><path d="M20 8.54V4a2 2 0 1 0-4 0v3"></path></svg>
+                </div>
+                <span class="font-bold text-xl tracking-tight text-white">Talking Rabbitt</span>
+            </div>
+
+            <div class="space-y-2 text-center lg:text-left">
+                <h2 class="text-3xl font-bold tracking-tight text-white">Create an account</h2>
+                <p class="text-muted text-sm">Sign up in seconds to get started.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mt-4">
+                <button type="button" class="flex items-center justify-center w-full px-4 py-2 border border-border rounded-lg shadow-sm bg-surface text-sm font-medium text-neutral-300 hover:bg-neutral-800 hover:text-white transition-all active:scale-[0.98]">
+                    <svg class="h-4 w-4 mr-2" viewBox="0 0 24 24"><path d="M12.0003 4.75C13.7703 4.75 15.3553 5.36002 16.6053 6.54998L20.0303 3.125C17.9502 1.19 15.2353 0 12.0003 0C7.31028 0 3.25527 2.69 1.28027 6.60998L5.27028 9.70498C6.21525 6.86002 8.87028 4.75 12.0003 4.75Z" fill="#EA4335"/><path d="M23.49 12.275C23.49 11.49 23.415 10.73 23.3 10H12V14.51H18.47C18.18 15.99 17.34 17.25 16.08 18.1L19.945 21.1C22.2 19.01 23.49 15.92 23.49 12.275Z" fill="#4285F4"/><path d="M5.26498 14.2949C5.02498 13.5699 4.88501 12.7999 4.88501 11.9999C4.88501 11.1999 5.01998 10.4299 5.26498 9.7049L1.275 6.60986C0.46 8.22986 0 10.0599 0 11.9999C0 13.9399 0.46 15.7699 1.28 17.3899L5.26498 14.2949Z" fill="#FBBC05"/><path d="M12.0004 24.0001C15.2404 24.0001 17.9654 22.935 19.9454 21.095L16.0804 18.095C15.0054 18.82 13.6204 19.245 12.0004 19.245C8.8704 19.245 6.21537 17.135 5.26538 14.29L1.27539 17.385C3.25539 21.31 7.3104 24.0001 12.0004 24.0001Z" fill="#34A853"/></svg>
+                    Google
+                </button>
+                <button type="button" class="flex items-center justify-center w-full px-4 py-2 border border-border rounded-lg shadow-sm bg-surface text-sm font-medium text-neutral-300 hover:bg-neutral-800 hover:text-white transition-all active:scale-[0.98]">
+                    <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+                    GitHub
+                </button>
+            </div>
+
+            <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-border"></div></div>
+                <div class="relative flex justify-center text-xs uppercase tracking-widest font-medium">
+                    <span class="px-3 bg-background text-neutral-500">Or register with email</span>
+                </div>
+            </div>
+
+            <form class="space-y-4" onsubmit="event.preventDefault(); window.location.href='analystics.html';">
+                <div class="space-y-1.5">
+                    <label for="name" class="block text-sm font-medium text-neutral-300">Full Name</label>
+                    <input id="name" type="text" placeholder="Jane Doe" required
+                        class="block w-full rounded-lg bg-surface border border-border px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 focus:border-neutral-400 focus:outline-none focus:ring-1 focus:ring-neutral-400 transition-all">
+                </div>
+
+                <div class="space-y-1.5">
+                    <label for="email" class="block text-sm font-medium text-neutral-300">Email address</label>
+                    <input id="email" type="email" placeholder="name@company.com" required
+                        class="block w-full rounded-lg bg-surface border border-border px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 focus:border-neutral-400 focus:outline-none focus:ring-1 focus:ring-neutral-400 transition-all">
+                </div>
+
+                <div class="space-y-1.5">
+                    <label for="password" class="block text-sm font-medium text-neutral-300">Password</label>
+                    <input id="password" type="password" placeholder="Create a password" required
+                        class="block w-full rounded-lg bg-surface border border-border px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 focus:border-neutral-400 focus:outline-none focus:ring-1 focus:ring-neutral-400 transition-all">
+                </div>
+
+                <div class="flex items-start mt-2">
+                    <div class="flex h-5 items-center">
+                        <input id="terms" type="checkbox" required class="h-4 w-4 rounded border-border bg-surface text-purple-500 focus:ring-purple-500 focus:ring-offset-background">
+                    </div>
+                    <div class="ml-2 text-xs text-neutral-400">
+                        <label for="terms">I agree to the <a href="#" class="text-white hover:underline">Terms of Service</a> and <a href="#" class="text-white hover:underline">Privacy Policy</a>.</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full flex justify-center items-center mt-4 py-2.5 px-4 rounded-lg shadow-sm text-sm font-medium text-black bg-white hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-500 focus:ring-offset-background transition-all active:scale-[0.98]">
+                    Create Account
+                </button>
+            </form>
+
+            <p class="text-center text-sm text-neutral-400 mt-6">
+                Already have an account? <a href="login.html" class="font-medium text-white hover:text-purple-400 hover:underline transition-all">Sign in</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

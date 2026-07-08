@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talking Rabbitt | About Us</title>
+  
+  <!-- ========================================================================= -->
+  <!-- EXTERNAL LIBRARIES & STYLESHEETS                                          -->
+  <!-- ========================================================================= -->
+  
+  <!-- Tailwind CSS (Handles all the styling, colors, and layout grids) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons (Handles all the vector icons like the rabbit, mic, etc.) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- ========================================================================= -->
+  <!-- CUSTOM CSS (For background patterns and specific animations)              -->
+  <!-- ========================================================================= -->
+  <style>
+    /* Creates the cool dotted/grid background effect behind the site */
+    .bg-grid-pattern {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, #000 40%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, #000 40%, transparent 100%);
+    }
+  </style>
+</head>
+
+<!-- ========================================================================= -->
+<!-- MAIN BODY START                                                           -->
+<!-- ========================================================================= -->
+<body class="min-h-screen bg-black text-white font-sans selection:bg-blue-500/30 selection:text-blue-200">
+
+  <!-- THE BACKGROUND GRID ELEMENT -->
+  <div class="absolute inset-0 -z-10 h-full w-full bg-grid-pattern pointer-events-none"></div>
+
+  <!-- ========================================================================= -->
+  <!-- TOP NAVIGATION BAR                                                        -->
+  <!-- ========================================================================= -->
+  <nav class="sticky top-0 z-50 border-b border-white/10 bg-black/50 backdrop-blur-md">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        
+        <!-- LOGO & BRAND NAME -->
+        <div class="flex items-center gap-2">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm shadow-blue-900/50">
+            <i data-lucide="rabbit" class="w-5 h-5"></i>
+          </div>
+          <span class="text-xl font-bold tracking-tight text-white">Talking Rabbitt</span>
+        </div>
+        
+        <!-- CENTER NAVIGATION LINKS -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#about-us" class="text-sm font-medium text-zinc-400 hover:text-white transition-colors">About</a>
+          <a href="#features" class="text-sm font-medium text-zinc-400 hover:text-white transition-colors">Features</a>
+        </div>
+        
+        <!-- RIGHT SIDE ACTION BUTTON -->
+        <div class="flex items-center gap-4">
+          <a href="login.html" class="inline-block rounded-full bg-white px-5 py-2 text-sm font-medium text-black hover:bg-zinc-200 transition-colors shadow-md">
+            Login/Signup
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ========================================================================= -->
+    <!-- HERO SECTION (The big text at the very top of the page)                   -->
+    <!-- ========================================================================= -->
+    <section class="relative pt-20 pb-12 overflow-hidden">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+          Democratizing Data.<br class="hidden md:block"/>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">
+            One question at a time.
+          </span>
+        </h1>
+        <p class="max-w-2xl mx-auto text-lg text-zinc-400 mb-8 leading-relaxed">
+          We believe analytics shouldn't require an engineering degree. Learn more about the team and the mission behind Talking Rabbitt.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- ABOUT US SECTION (This replaces the old Upload/Dashboard mockups)         -->
+    <!-- ========================================================================= -->
+    <section id="about-us" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-24 relative z-20">
+      
+      <!-- GLOWING BORDER EFFECT BEHIND THE BOX -->
+      <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-20 pointer-events-none"></div>
+      
+      <!-- MAIN ABOUT US CONTAINER -->
+      <div class="relative bg-zinc-950 border border-zinc-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden p-8 md:p-12">
+        
+        <!-- 1. MISSION & PROBLEM GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 mt-4">
+            
+            <!-- THE MISSION BLOCK -->
+            <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-8 hover:bg-zinc-900 transition-colors">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6">
+                    <i data-lucide="target" class="w-6 h-6 text-blue-400"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-4">Our Mission</h3>
+                <p class="text-zinc-400 leading-relaxed text-sm md:text-base">
+                    To make business intelligence as easy as texting a colleague. We are building the future of conversational BI, empowering everyone to ask questions and get instant, accurate charts without relying on complex pivot tables or data teams.
+                </p>
+            </div>
+
+            <!-- THE PROBLEM BLOCK -->
+            <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-8 hover:bg-zinc-900 transition-colors">
+                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center mb-6">
+                    <i data-lucide="lightbulb" class="w-6 h-6 text-indigo-400"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-4">The Problem We Solve</h3>
+                <p class="text-zinc-400 leading-relaxed text-sm md:text-base">
+                    Traditional BI tools have a massive learning curve. People export data back to spreadsheets just to understand it. We bridge that gap using large language models that understand your context and generate visual insights on the fly.
+                </p>
+            </div>
+        </div>
+
+        <!-- 2. TEAM SECTION -->
+        <div class="border-t border-zinc-800 pt-16 pb-8">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-white mb-4">Meet the Team</h3>
+                <p class="text-zinc-400">Built by developers passionate about data and AI.</p>
+            </div>
+            
+            <!-- TEAM CARDS GRID (Edit these to add your friends/teammates) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- TEAM MEMBER 1 -->
+                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center flex flex-col items-center shadow-lg">
+                    <div class="w-24 h-24 rounded-full bg-zinc-800 border-2 border-zinc-700 mb-5 overflow-hidden flex items-center justify-center">
+                        <i data-lucide="user" class="w-10 h-10 text-zinc-500"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-white">Niiladri</h4>
+                    <p class="text-sm text-blue-400 mb-3 font-medium">Lead Developer</p>
+                    <p class="text-xs text-zinc-400 leading-relaxed">Engineering student focusing on C/C++ and architecting scalable AI applications.</p>
+                </div>
+
+                <!-- TEAM MEMBER 2 -->
+                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center flex flex-col items-center shadow-lg">
+                    <div class="w-24 h-24 rounded-full bg-zinc-800 border-2 border-zinc-700 mb-5 overflow-hidden flex items-center justify-center">
+                        <i data-lucide="user" class="w-10 h-10 text-zinc-500"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-white">Aryan Yadav</h4>
+                    <p class="text-sm text-blue-400 mb-3 font-medium">Frontend Engineer</p>
+                    <p class="text-xs text-zinc-400 leading-relaxed">Specializes in Tailwind CSS and creating seamless, intuitive user experiences.</p>
+                </div>
+
+                <!-- TEAM MEMBER 3 -->
+                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center flex flex-col items-center shadow-lg">
+                    <div class="w-24 h-24 rounded-full bg-zinc-800 border-2 border-zinc-700 mb-5 overflow-hidden flex items-center justify-center">
+                        <i data-lucide="user" class="w-10 h-10 text-zinc-500"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-white">Aarav Pandey</h4>
+                    <p class="text-sm text-blue-400 mb-3 font-medium">Backend Engineer</p>
+                    <p class="text-xs text-zinc-400 leading-relaxed">Handles API integrations, data parsing, and connecting the LLM logic.</p>
+                </div>
+
+                <!-- TEAM MEMBER 4 -->
+                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center flex flex-col items-center shadow-lg">
+                    <div class="w-24 h-24 rounded-full bg-zinc-800 border-2 border-zinc-700 mb-5 overflow-hidden flex items-center justify-center">
+                        <i data-lucide="user" class="w-10 h-10 text-zinc-500"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-white">Prasheel Kumar Singh</h4>
+                    <p class="text-sm text-blue-400 mb-3 font-medium">Backend Engineer</p>
+                    <p class="text-xs text-zinc-400 leading-relaxed">Ensures the charts, KPIs, and anomaly detection math are highly accurate.</p>
+                </div>
+
+            </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- FEATURES SECTION (Kept for visual completeness at the bottom)             -->
+    <!-- ========================================================================= -->
+    <section id="features" class="py-24 bg-zinc-950 border-t border-zinc-900 relative">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <h2 class="text-3xl font-bold tracking-tight text-white mb-4">Analytics without the learning curve</h2>
+          <p class="text-zinc-400">Forget complex pivot tables or writing SQL. Just ask questions.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-zinc-900/50 p-8 rounded-2xl border border-white/5">
+            <i data-lucide="message-square" class="w-6 h-6 text-blue-400 mb-4"></i>
+            <h3 class="text-lg font-semibold text-white mb-2">Plain English Queries</h3>
+            <p class="text-sm text-zinc-400">Ask questions exactly how you would ask a colleague. Our LLM understands context.</p>
+          </div>
+          <div class="bg-zinc-900/50 p-8 rounded-2xl border border-white/5">
+            <i data-lucide="bar-chart-3" class="w-6 h-6 text-blue-400 mb-4"></i>
+            <h3 class="text-lg font-semibold text-white mb-2">Auto-Generated Charts</h3>
+            <p class="text-sm text-zinc-400">Instantly generate the perfect visual representation for the data you requested.</p>
+          </div>
+          <div class="bg-zinc-900/50 p-8 rounded-2xl border border-white/5">
+            <i data-lucide="zap" class="w-6 h-6 text-blue-400 mb-4"></i>
+            <h3 class="text-lg font-semibold text-white mb-2">Instant Insights</h3>
+            <p class="text-sm text-zinc-400">Spot anomalies, trends, and root causes in seconds without touching Excel.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER SECTION                                                            -->
+  <!-- ========================================================================= -->
+  <footer class="bg-black border-t border-zinc-900 py-8 text-center text-sm text-zinc-600">
+    &copy; 2026 Talking Rabbitt Inc. All rights reserved.
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- SCRIPTS SECTION                                                           -->
+  <!-- ========================================================================= -->
+
+  <!-- Initializes all the Lucide icons so they show up on the page -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+  <!-- Note: Chart.js, config.js, and script.js were removed from this page because 
+       there are no longer any charts or file upload boxes to power here. 
+       Those scripts now belong inside dashboard.html instead. -->
+
+</body>
+</html>

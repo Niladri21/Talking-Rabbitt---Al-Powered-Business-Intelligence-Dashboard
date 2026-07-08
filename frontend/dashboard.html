@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Talking Rabbitt | BI Dashboard</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      .bg-grid-pattern {
+        background-size: 40px 40px;
+        background-image:
+          linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0.05) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.05) 1px,
+            transparent 1px
+          );
+        mask-image: radial-gradient(
+          ellipse 100% 100% at 50% 0%,
+          #000 40%,
+          transparent 100%
+        );
+        -webkit-mask-image: radial-gradient(
+          ellipse 100% 100% at 50% 0%,
+          #000 40%,
+          transparent 100%
+        );
+      }
+      .message {
+        margin-bottom: 1rem;
+        padding: 0.875rem 1.25rem;
+        border-radius: 1rem;
+        max-width: 85%;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        animation: fadeIn 0.3s ease-out forwards;
+      }
+      .message.user {
+        align-self: flex-end;
+        background-color: #2563eb;
+        color: white;
+        border-bottom-right-radius: 0.25rem;
+        margin-left: auto;
+      }
+      .message.ai {
+        align-self: flex-start;
+        background-color: #27272a;
+        color: #e4e4e7;
+        border: 1px solid #3f3f46;
+        border-bottom-left-radius: 0.25rem;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen bg-black text-white font-sans selection:bg-blue-500/30 selection:text-blue-200"
+  >
+    <div
+      class="absolute inset-0 -z-10 h-full w-full bg-grid-pattern pointer-events-none"
+    ></div>
+
+    <nav
+      class="sticky top-0 z-50 border-b border-white/10 bg-black/50 backdrop-blur-md"
+    >
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div
+              class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm shadow-blue-900/50"
+            >
+              <i data-lucide="rabbit" class="w-5 h-5"></i>
+            </div>
+            <span class="text-xl font-bold tracking-tight text-white"
+              >Talking Rabbitt</span
+            >
+          </div>
+
+          <!-- Replaced generic links with a return route to analytics -->
+          <div class="hidden md:flex items-center gap-8">
+            <a
+              href="analystics.html"
+              class="text-sm font-medium text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5"
+            >
+              <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Analytics
+            </a>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <button
+              class="rounded-full bg-white px-5 py-2 text-sm font-medium text-black hover:bg-zinc-200 transition-colors shadow-md"
+            >
+              Dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <section class="relative pt-12 pb-8 overflow-hidden">
+        <div
+          class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 text-center"
+        >
+          <h1
+            class="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4 leading-tight"
+          >
+            Your Data Workspace
+          </h1>
+          <p class="max-w-2xl mx-auto text-base text-zinc-400 leading-relaxed">
+            Upload your file below and let our LLM generate instant insights,
+            anomaly detection, and automated charts.
+          </p>
+        </div>
+      </section>
+
+      <!-- Workspace Container -->
+      <section
+        id="app-workspace"
+        class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-24 relative z-20"
+      >
+        <div
+          class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-20 pointer-events-none"
+        ></div>
+        <div
+          class="relative bg-zinc-950 border border-zinc-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+        >
+          <div
+            class="p-6 border-b border-zinc-800 grid grid-cols-1 lg:grid-cols-3 gap-6"
+          >
+            <div
+              id="drop-zone"
+              class="lg:col-span-1 border-2 border-dashed border-zinc-700 rounded-xl p-6 text-center flex flex-col items-center justify-center bg-zinc-900/50 hover:border-blue-500/50 hover:bg-zinc-900 transition-all group"
+            >
+              <i
+                data-lucide="upload-cloud"
+                class="w-8 h-8 text-blue-500 mb-3 group-hover:scale-110 transition-transform"
+              ></i>
+              <p class="text-zinc-300 font-medium text-sm mb-1">
+                Drag & drop your spreadsheet
+              </p>
+              <p class="text-zinc-500 text-xs mb-4">Accepts .csv, .xlsx,.pdf</p>
+              <input
+                type="file"
+                id="file-input"
+                accept=".csv, .xlsx, text/csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                hidden
+              />
+              <div class="flex gap-3 w-full justify-center">
+                <button
+                  id="browse-btn"
+                  class="px-4 py-2 bg-zinc-800 text-white text-xs font-semibold rounded-lg hover:bg-zinc-700 transition-colors border border-zinc-700"
+                >
+                  Browse
+                </button>
+                <button
+                  id="upload-btn"
+                  class="px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-500 transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)]"
+                >
+                  Upload Data
+                </button>
+              </div>
+            </div>
+
+            <div
+              id="kpi-section"
+              class="lg:col-span-2 grid grid-cols-2 sm:grid-cols-4 gap-4"
+            >
+              <div
+                id="kpi-card-1"
+                class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 flex flex-col justify-center"
+              >
+                <span
+                  class="text-[10px] text-zinc-500 uppercase tracking-wider mb-1 font-semibold"
+                  >Total Revenue</span
+                >
+                <span class="text-2xl font-bold text-white">--</span>
+              </div>
+              <div
+                id="kpi-card-2"
+                class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 flex flex-col justify-center"
+              >
+                <span
+                  class="text-[10px] text-zinc-500 uppercase tracking-wider mb-1 font-semibold"
+                  >Active Users</span
+                >
+                <span class="text-2xl font-bold text-white">--</span>
+              </div>
+              <div
+                id="kpi-card-3"
+                class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 flex flex-col justify-center"
+              >
+                <span
+                  class="text-[10px] text-zinc-500 uppercase tracking-wider mb-1 font-semibold"
+                  >Conversion</span
+                >
+                <span class="text-2xl font-bold text-white">--</span>
+              </div>
+              <div
+                id="kpi-card-4"
+                class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 flex flex-col justify-center"
+              >
+                <span
+                  class="text-[10px] text-zinc-500 uppercase tracking-wider mb-1 font-semibold"
+                  >Anomalies</span
+                >
+                <span class="text-2xl font-bold text-white">--</span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            id="dashboard-section"
+            class="p-6 border-b border-zinc-800 grid grid-cols-1 md:grid-cols-3 gap-6 bg-zinc-900/30"
+          >
+            <div
+              class="bg-zinc-950 border border-zinc-800 rounded-xl p-4 h-64 flex flex-col shadow-inner"
+            >
+              <h3
+                class="text-xs text-zinc-400 font-semibold uppercase tracking-wider mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="trending-up" class="w-3 h-3 text-blue-400"></i>
+                Trend Analysis
+              </h3>
+              <div class="flex-1 relative w-full">
+                <canvas
+                  id="trend-line-chart"
+                  aria-label="Trend Line Chart"
+                  role="img"
+                ></canvas>
+              </div>
+            </div>
+            <div
+              class="bg-zinc-950 border border-zinc-800 rounded-xl p-4 h-64 flex flex-col shadow-inner"
+            >
+              <h3
+                class="text-xs text-zinc-400 font-semibold uppercase tracking-wider mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="bar-chart-2" class="w-3 h-3 text-blue-400"></i>
+                Top/Bottom Drivers
+              </h3>
+              <div class="flex-1 relative w-full">
+                <canvas
+                  id="top-bottom-bar-chart"
+                  aria-label="Top/Bottom Bar Chart"
+                  role="img"
+                ></canvas>
+              </div>
+            </div>
+            <div
+              class="bg-zinc-950 border border-zinc-800 rounded-xl p-4 h-64 flex flex-col shadow-inner"
+            >
+              <h3
+                class="text-xs text-zinc-400 font-semibold uppercase tracking-wider mb-3 flex items-center gap-2"
+              >
+                <i
+                  data-lucide="alert-triangle"
+                  class="w-3 h-3 text-red-400"
+                ></i>
+                Anomaly Chart
+              </h3>
+              <div class="flex-1 relative w-full">
+                <canvas
+                  id="anomaly-chart"
+                  aria-label="Anomaly Chart"
+                  role="img"
+                ></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div
+            id="chat-section"
+            class="flex flex-col h-[400px] bg-zinc-950 relative"
+          >
+            <div class="flex-1 p-6 overflow-y-auto flex flex-col message-list">
+              <div class="message ai flex gap-3">
+                <div
+                  class="w-6 h-6 rounded bg-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5"
+                >
+                  <i data-lucide="rabbit" class="w-4 h-4 text-white"></i>
+                </div>
+                <div>
+                  Hello! Upload a dataset above to begin. Once processed, ask me
+                  questions like <em>"Why did sales drop in March?"</em>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="p-4 border-t border-zinc-800 bg-zinc-900/80 backdrop-blur"
+            >
+              <div class="relative flex items-center shadow-sm rounded-xl">
+                <input
+                  type="text"
+                  id="chat-input"
+                  placeholder="Ask a question about your data..."
+                  class="w-full pl-5 pr-24 py-4 rounded-xl border border-zinc-700 bg-zinc-950 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm"
+                  autocomplete="off"
+                />
+                <div class="absolute right-2 flex items-center gap-1">
+                  <button
+                    id="mic-btn"
+                    aria-label="Voice Input"
+                    class="p-2 text-zinc-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-colors"
+                  >
+                    <i data-lucide="mic" class="w-5 h-5"></i>
+                  </button>
+                  <button
+                    id="send-btn"
+                    aria-label="Send Message"
+                    class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors shadow-md"
+                  >
+                    <i data-lucide="send" class="w-5 h-5 text-white"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="mt-2 text-center text-[11px] text-zinc-600">
+                Talking Rabbitt can make mistakes. Always verify critical
+                business metrics.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      lucide.createIcons();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="config.js"></script>
+    <script type="module" src="charts.js"></script>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

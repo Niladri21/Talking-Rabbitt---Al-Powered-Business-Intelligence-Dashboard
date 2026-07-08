@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights History | Talking Rabbitt</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Variables & Reset */
+        :root {
+            --bg-color: #0a0a0a;
+            --surface-color: #171717;
+            --surface-hover: #1f1f1f;
+            --border-color: #262626;
+            --border-hover: #3a3a3a;
+            
+            --text-main: #ffffff;
+            --text-muted: #a3a3a3;
+            --text-dark: #666666;
+            
+            --primary-color: #a855f7; /* Purple */
+            --primary-light: rgba(168, 85, 247, 0.15);
+            
+            --badge-bg: #262626;
+            --gold: #eab308;
+            --blue: #3b82f6;
+            
+            --font-family: 'Inter', system-ui, sans-serif;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-pill: 9999px;
+            
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 32px 24px 100px 24px;
+        }
+
+        h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
+        h2 { font-size: 1.125rem; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }        
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .search-wrapper { position: relative; }
+        .search-wrapper svg {
+            position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+            color: var(--text-muted); width: 16px; height: 16px;
+        }
+        .search-input {
+            background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main);
+            padding: 8px 16px 8px 36px; border-radius: var(--radius-pill); font-size: 0.875rem;
+            outline: none; width: 240px; transition: var(--transition); font-family: var(--font-family);
+        }
+        .search-input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 1px var(--primary-color); }
+
+        .filter-select {
+            appearance: none; background-color: var(--surface-color); border: 1px solid var(--border-color);
+            color: var(--text-main); padding: 8px 32px 8px 16px; border-radius: var(--radius-pill);
+            font-size: 0.875rem; cursor: pointer; outline: none; transition: var(--transition); font-family: var(--font-family);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 12px center;
+        }
+        .filter-select:hover, .filter-select:focus { border-color: var(--text-muted); }
+
+        /* Pinned Insights Shelf */
+        .pinned-section { margin-bottom: 48px; }
+        .pinned-scroll {
+            display: flex; gap: 16px; overflow-x: auto; padding-bottom: 12px; scroll-snap-type: x mandatory;
+        }
+        .pinned-card {
+            background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+            padding: 16px; min-width: 280px; max-width: 320px; flex-shrink: 0; scroll-snap-align: start;
+            transition: var(--transition); display: flex; flex-direction: column; gap: 12px;
+        }
+        .pinned-card:hover {
+            transform: translateY(-2px); border-color: var(--border-hover); box-shadow: 0 8px 24px rgba(0,0,0,0.4); background-color: var(--surface-hover);
+        }
+        .pinned-header { display: flex; justify-content: space-between; align-items: center; }
+        .star-icon { color: var(--gold); fill: var(--gold); width: 16px; height: 16px; }
+        .dataset-tag {
+            background-color: var(--badge-bg); color: var(--text-muted); font-size: 0.65rem; font-weight: 600;
+            padding: 2px 8px; border-radius: var(--radius-pill); text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .pinned-text { font-size: 0.875rem; color: var(--text-main); line-height: 1.4; }
+
+        /* History Timeline */
+        .timeline-group { margin-bottom: 32px; }
+        .date-label {
+            position: sticky; top: 0; background-color: rgba(10, 10, 10, 0.9); backdrop-filter: blur(8px);
+            padding: 12px 0; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;
+            letter-spacing: 0.05em; z-index: 10; border-bottom: 1px solid var(--border-color); margin-bottom: 16px;
+        }
+        .history-list { display: flex; flex-direction: column; gap: 16px; }
+        .history-card {
+            background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 20px; transition: var(--transition);
+        }
+        .history-card:hover {
+            border-color: var(--border-hover); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); background-color: var(--surface-hover);
+        }
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .timestamp { font-size: 0.75rem; color: var(--text-dark); }
+        .card-content { display: flex; justify-content: space-between; gap: 24px; margin-bottom: 16px; }
+        .text-content { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+        .q-line { font-size: 0.95rem; font-weight: 600; color: var(--text-main); display: flex; align-items: flex-start; gap: 8px; }
+        .q-prefix { color: var(--primary-color); font-weight: 700; }
+        .a-line { font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+        .a-prefix { color: var(--text-dark); font-weight: 700; }
+
+        .auto-insight-badge {
+            display: inline-flex; align-items: center; gap: 4px; background-color: var(--primary-light); color: var(--primary-color);
+            font-size: 0.7rem; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-pill); text-transform: uppercase;
+            letter-spacing: 0.05em; border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+        .auto-insight-badge svg { width: 12px; height: 12px; }
+        .thumbnail {
+            width: 100px; height: 60px; background-color: var(--border-color); border-radius: 6px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border: 1px solid #333;
+        }
+        .thumbnail::after {
+            content: ''; position: absolute; bottom: 0; left: 10%; right: 10%; top: 40%;
+            background: linear-gradient(to top, var(--primary-color), transparent); opacity: 0.2;
+        }
+
+        .card-actions { display: flex; gap: 8px; border-top: 1px solid var(--border-color); padding-top: 12px; }
+        .action-btn { background: transparent; border: none; color: var(--text-dark); cursor: pointer; padding: 6px; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        .action-btn svg { width: 16px; height: 16px; }
+        .action-btn:hover { background-color: var(--border-color); }
+        .btn-star:hover { color: var(--gold); }
+        .btn-refresh:hover { color: var(--blue); }
+        .btn-share:hover { color: var(--primary-color); }
+        .btn-star.active { color: var(--gold); fill: var(--gold); }
+
+        .fab-container { position: fixed; bottom: 32px; right: 32px; z-index: 50; }
+        .fab-btn {
+            background-color: rgba(10, 10, 10, 0.8); backdrop-filter: blur(8px); border: 1px solid var(--border-color);
+            color: var(--text-main); padding: 12px 20px; border-radius: var(--radius-pill); font-size: 0.875rem;
+            font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            transition: var(--transition); font-family: var(--font-family);
+        }
+        .fab-btn:hover { background-color: var(--surface-hover); border-color: var(--text-muted); transform: translateY(-2px); }
+
+        @media (max-width: 768px) {
+            .header { flex-direction: column; align-items: flex-start; }
+            .controls { width: 100%; }
+            .search-input { flex: 1; min-width: 200px; }
+            .fab-container { bottom: 20px; right: 20px; }
+        }
+        @media (max-width: 480px) {
+            .thumbnail { display: none; }
+            .pinned-card { min-width: 240px; }
+            .controls { flex-direction: column; align-items: stretch; }
+            .search-input { width: 100%; }
+            .filter-select { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="header">
+            <!-- Wrapped H1 with a beautifully matched Return to Analytics Button -->
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <a href="analystics.html" title="Back to Analytics" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 50%; color: var(--text-muted); transition: var(--transition);" onmouseover="this.style.color='var(--text-main)'; this.style.borderColor='var(--text-muted)';" onmouseout="this.style.color='var(--text-muted)'; this.style.borderColor='var(--border-color)';">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                </a>
+                <h1>Insights History</h1>
+            </div>
+            
+            <div class="controls">
+                <div class="search-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" class="search-input" placeholder="Search insights, datasets...">
+                </div>
+                <select class="filter-select">
+                    <option>All Datasets</option>
+                    <option>Q3 Sales Data</option>
+                    <option>Marketing Spend</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Time</option>
+                    <option>Last 7 Days</option>
+                    <option>Last 30 Days</option>
+                </select>
+            </div>
+        </header>
+
+        <section class="pinned-section">
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                Pinned Insights
+            </h2>
+            
+            <div class="pinned-scroll">
+                <div class="pinned-card">
+                    <div class="pinned-header">
+                        <span class="dataset-tag">Q3 Sales Data</span>
+                        <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 6.96 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </div>
+                    <p class="pinned-text">EMEA Region dropped 18% MoM, driven by a 40% decline in hardware renewals.</p>
+                </div>
+                <div class="pinned-card">
+                    <div class="pinned-header">
+                        <span class="dataset-tag">Marketing Spend</span>
+                        <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 6.96 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </div>
+                    <p class="pinned-text">CAC decreased by $45 despite lower top-of-funnel traffic in August.</p>
+                </div>
+                <div class="pinned-card">
+                    <div class="pinned-header">
+                        <span class="dataset-tag">Q3 Sales Data</span>
+                        <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 6.96 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </div>
+                    <p class="pinned-text">Enterprise SaaS remains the top category, growing +32% period-over-period.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="timeline-section">
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                All Activity
+            </h2>
+
+            <div class="timeline-group">
+                <div class="date-label">Today</div>
+                <div class="history-list">
+                    
+                    <div class="history-card">
+                        <div class="card-top">
+                            <span class="dataset-tag">Q3 Sales Data</span>
+                            <span class="timestamp">10:42 AM</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="text-content">
+                                <div class="q-line">
+                                    <span class="q-prefix">Q:</span>
+                                    <span>Why did hardware sales drop in August?</span>
+                                </div>
+                                <div class="a-line">
+                                    <span class="a-prefix">A:</span>
+                                    <span>Hardware sales dropped 40% ($120k) in August, strongly correlating with a 65% reduction in EMEA supply chain output.</span>
+                                </div>
+                            </div>
+                            <div class="thumbnail">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M3 15h18M9 21V9M15 21v-4"></path></svg>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn btn-star" title="Pin Insight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 6.96 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+                            <button class="action-btn btn-refresh" title="Re-ask Question"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg></button>
+                            <button class="action-btn btn-share" title="Share Insight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg></button>
+                        </div>
+                    </div>
+
+                    <div class="history-card">
+                        <div class="card-top">
+                            <span class="dataset-tag">Q3 Sales Data</span>
+                            <span class="timestamp">09:15 AM</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="text-content">
+                                <div>
+                                    <span class="auto-insight-badge">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
+                                        Auto-Insight
+                                    </span>
+                                </div>
+                                <div class="a-line" style="margin-top: 4px;">
+                                    <span>Anomaly detected: Unusually high churn (12%) in the SMB Tier during Week 3 of August. Recommended action: Investigate correlation with Aug 14th platform outage.</span>
+                                </div>
+                            </div>
+                            <div class="thumbnail">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn btn-star active" title="Unpin Insight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 6.96 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+                            <button class="action-btn btn-share" title="Share Insight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="timeline-group">
+                <div class="date-label">Yesterday</div>
+                <div class="history-list">
+                    
+                    <div class="history-card">
+                        <div class="card-top">
+                            <span class="dataset-tag">Q3 Sales Data</span>
+                            <span class="timestamp">4:30 PM</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="text-content">
+                                <div class="q-line">
+                                    <span class="q-prefix">Q:</span>
+                                    <span>Show me the top performing region for Q3.</span>
+                                </div>
+                                <div class="a-line">
+                                    <span class="a-prefix">A:</span>
+                                    <span>North America was the highest performing region, bringing in $580k, which is roughly 47% of total Q3 revenue.</span>
+                                </div>
+                            </div>
+                            <div class="thumbnail">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn btn-star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 6.96 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+                            <button class="action-btn btn-refresh"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg></button>
+                            <button class="action-btn btn-share"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <div class="fab-container">
+        <button class="fab-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Export Pinned as PDF
+        </button>
+    </div>
+
+</body>
+</html>
